@@ -2,13 +2,13 @@
  * Linux Wireless Extensions support
  *
  * Copyright (C) 1999-2010, Broadcom Corporation
- * 
+ *
  *      Unless you and Broadcom execute a separate written software license
  * agreement governing use of this software, this software is licensed to you
  * under the terms of the GNU General Public License version 2 (the "GPL"),
  * available at http://www.broadcom.com/licenses/GPLv2.php, with the
  * following added to such license:
- * 
+ *
  *      As a special exception, the copyright holders of this software give you
  * permission to link this software with independent modules, and to copy and
  * distribute the resulting executable under terms of your choice, provided that
@@ -16,7 +16,7 @@
  * the license of that module.  An independent module is a module which is not
  * derived from this software.  The special exception does not apply to any
  * modifications of the software.
- * 
+ *
  *      Notwithstanding the above, under no circumstances may you combine this
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
@@ -61,7 +61,11 @@
 #define AP_LPB_CMD              (SIOCIWFIRSTPRIV+23)
 #define WL_AP_STOP              (SIOCIWFIRSTPRIV+25)
 #define WL_FW_RELOAD            (SIOCIWFIRSTPRIV+27)
+#if 0
 #define WL_AP_SPARE2            (SIOCIWFIRSTPRIV+29)
+#else
+#define WL_SET_AP_TXPWR      (SIOCIWFIRSTPRIV+29)
+#endif
 #define WL_AP_SPARE3            (SIOCIWFIRSTPRIV+31)
 #define G_SCAN_RESULTS		(8*1024)
 #define WE_ADD_EVENT_FIX	0x80
@@ -113,13 +117,13 @@ typedef struct wl_iw_ss_cache{
 } wl_iw_ss_cache_t;
 
 typedef struct wl_iw_ss_cache_ctrl {
-	wl_iw_ss_cache_t *m_cache_head;	
-	int m_link_down;		
-	int m_timer_expired;		
-	char m_active_bssid[ETHER_ADDR_LEN];	
-	uint m_prev_scan_mode;	
-	uint m_cons_br_scan_cnt;	
-	struct timer_list *m_timer;	
+	wl_iw_ss_cache_t *m_cache_head;
+	int m_link_down;
+	int m_timer_expired;
+	char m_active_bssid[ETHER_ADDR_LEN];
+	uint m_prev_scan_mode;
+	uint m_cons_br_scan_cnt;
+	struct timer_list *m_timer;
 	int last_rssi; /*penguin add for record last rssi */
 } wl_iw_ss_cache_ctrl_t;
 typedef enum broadcast_first_scan {

@@ -2,13 +2,13 @@
  * SDIO access interface for drivers - linux specific (pci only)
  *
  * Copyright (C) 1999-2010, Broadcom Corporation
- * 
+ *
  *      Unless you and Broadcom execute a separate written software license
  * agreement governing use of this software, this software is licensed to you
  * under the terms of the GNU General Public License version 2 (the "GPL"),
  * available at http://www.broadcom.com/licenses/GPLv2.php, with the
  * following added to such license:
- * 
+ *
  *      As a special exception, the copyright holders of this software give you
  * permission to link this software with independent modules, and to copy and
  * distribute the resulting executable under terms of your choice, provided that
@@ -16,7 +16,7 @@
  * the license of that module.  An independent module is a module which is not
  * derived from this software.  The special exception does not apply to any
  * modifications of the software.
- * 
+ *
  *      Notwithstanding the above, under no circumstances may you combine this
  * software in any way with any other Broadcom software provided under a license
  * other than the GPL, without Broadcom's express prior written consent.
@@ -593,15 +593,14 @@ int bcmsdh_register_oob_intr(void * dhdp)
 	dev_set_drvdata(sdhcinfo->dev, dhdp);
 
 	/* Refer to customer Host IRQ docs about proper irqflags definition */
-	error = request_irq(sdhcinfo->oob_irq, wlan_oob_irq, IRQF_TRIGGER_FALLING,
-	//error = request_irq(sdhcinfo->oob_irq, wlan_oob_irq, sdhcinfo->oob_flags,
+	error = request_irq(sdhcinfo->oob_irq, wlan_oob_irq, sdhcinfo->oob_flags,
 		"bcmsdh_sdmmc", NULL);
 
 	if (error)
 		return -ENODEV;
 
 	set_irq_wake(sdhcinfo->oob_irq, 1);
-
+	myprintf("irq: %d\n", sdhcinfo->oob_irq);
 	return 0;
 }
 
