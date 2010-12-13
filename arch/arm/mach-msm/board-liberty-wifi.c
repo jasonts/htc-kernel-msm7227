@@ -134,7 +134,7 @@ static int __init liberty_wifi_init(void)
 	if (!machine_is_liberty())
 		return 0;
 
-	printk("%s: start\n", __func__);
+	printk(KERN_INFO "%s: start\n", __func__);
 	liberty_wifi_update_nvs("sd_oobonly=1\n");
 	liberty_wifi_update_nvs("btc_params80=0\n");
 	liberty_wifi_update_nvs("btc_params6=30\n");

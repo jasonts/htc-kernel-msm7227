@@ -57,10 +57,6 @@
 #include <mach/board.h>
 #include <mach/board_htc.h>
 #include <mach/msm_serial_hs.h>
-#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
-#include <mach/bcm_bt_lpm.h>
-#endif
-
 #include <mach/atmega_microp.h>
 /* #include <mach/msm_tssc.h> */
 #include <mach/htc_battery.h>
@@ -807,72 +803,8 @@ static struct platform_device liberty_timed_gpios = {
 	},
 };
 
-#if defined(CONFIG_SERIAL_MSM_HS) && defined(CONFIG_SERIAL_MSM_HS_PURE_ANDROID)
-static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
-        .rx_wakeup_irq = -1,
-        .inject_rx_on_wakeup = 0,
-        .exit_lpm_cb = bcm_bt_lpm_exit_lpm_locked,
-};
-
-static struct bcm_bt_lpm_platform_data bcm_bt_lpm_pdata = {
-        .gpio_wake = LIBERTY_GPIO_BT_CHIP_WAKE,
-        .gpio_host_wake = LIBERTY_GPIO_BT_HOST_WAKE,
-        .request_clock_off_locked = msm_hs_request_clock_off_locked,
-        .request_clock_on_locked = msm_hs_request_clock_on_locked,
-};
-
-struct platform_device bcm_bt_lpm_device = {
-        .name = "bcm_bt_lpm",
-        .id = 0,
-        .dev = {
-                .platform_data = &bcm_bt_lpm_pdata,
-        },
-};
-
-#define ATAG_BDADDR 0x43294329  /* mahimahi bluetooth address tag */
-#define ATAG_BDADDR_SIZE 4
-#define BDADDR_STR_SIZE 18
-
-static char bdaddr[BDADDR_STR_SIZE];
-
-module_param_string(bdaddr, bdaddr, sizeof(bdaddr), 0400);
-MODULE_PARM_DESC(bdaddr, "bluetooth address");
-
-static int __init parse_tag_bdaddr(const struct tag *tag)
-{
-        unsigned char *b = (unsigned char *)&tag->u;
-
-        if (tag->hdr.size != ATAG_BDADDR_SIZE)
-                return -EINVAL;
-
-        snprintf(bdaddr, BDADDR_STR_SIZE, "%02X:%02X:%02X:%02X:%02X:%02X",
-                        b[0], b[1], b[2], b[3], b[4], b[5]);
-
-        return 0;
-}
-
-__tagtable(ATAG_BDADDR, parse_tag_bdaddr);
-
-#elif defined(CONFIG_SERIAL_MSM_HS)
-static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
-	.wakeup_irq = MSM_GPIO_TO_INT(LIBERTY_GPIO_BT_HOST_WAKE),
-	.inject_rx_on_wakeup = 0,
-	.cpu_lock_supported = 1,
-
-	/* for bcm */
-	.bt_wakeup_pin_supported = 1,
-	.bt_wakeup_pin = LIBERTY_GPIO_BT_CHIP_WAKE,
-	.host_wakeup_pin = LIBERTY_GPIO_BT_HOST_WAKE,
-
-};
-#endif
-
-
 static struct platform_device *devices[] __initdata = {
 	&msm_device_i2c,
-#ifdef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
-        &bcm_bt_lpm_device,
-#endif
 	&htc_battery_pdev,
 	&msm_camera_sensor_s5k4e1gx,
 	&liberty_rfkill,
@@ -997,7 +929,6 @@ void config_liberty_proximity_gpios(int on)
 			ARRAY_SIZE(proximity_off_gpio_table));
 }
 
-#ifndef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 /* for bcm */
 static char bdaddress[20];
 extern unsigned char *get_bt_bd_ram(void);
@@ -1014,7 +945,6 @@ static void bt_export_bd_address(void)
 
 module_param_string(bdaddress, bdaddress, sizeof(bdaddress), S_IWUSR | S_IRUGO);
 MODULE_PARM_DESC(bdaddress, "BT MAC ADDRESS");
-#endif
 
 static uint32_t liberty_serial_debug_table[] = {
 	/* config as serial debug uart */
@@ -1054,6 +984,20 @@ static struct perflock_platform_data liberty_perflock_data = {
 	.perf_acpu_table = liberty_perf_acpu_table,
 	.table_size = ARRAY_SIZE(liberty_perf_acpu_table),
 };
+
+#ifdef CONFIG_SERIAL_MSM_HS
+static struct msm_serial_hs_platform_data msm_uart_dm1_pdata = {
+	.rx_wakeup_irq = MSM_GPIO_TO_INT(LIBERTY_GPIO_BT_HOST_WAKE),
+	.inject_rx_on_wakeup = 0,
+	.cpu_lock_supported = 1,
+
+	/* for bcm */
+	.bt_wakeup_pin_supported = 1,
+	.bt_wakeup_pin = LIBERTY_GPIO_BT_CHIP_WAKE,
+	.host_wakeup_pin = LIBERTY_GPIO_BT_HOST_WAKE,
+
+};
+#endif
 
 static ssize_t liberty_virtual_keys_show(struct kobject *kobj,
 			       struct kobj_attribute *attr, char *buf)
@@ -1113,10 +1057,8 @@ static void __init liberty_init(void)
 	printk("liberty_init() revision = 0x%X\n", system_rev);
 	board_get_cid_tag(&cid);
 
-#ifndef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 	/* for bcm */
 	bt_export_bd_address();
-#endif
 
 	/*
 	 * Setup common MSM GPIOS
@@ -1148,9 +1090,7 @@ static void __init liberty_init(void)
 
 #ifdef CONFIG_SERIAL_MSM_HS
 	msm_device_uart_dm1.dev.platform_data = &msm_uart_dm1_pdata;
-#ifndef CONFIG_SERIAL_MSM_HS_PURE_ANDROID
 	msm_device_uart_dm1.name = "msm_serial_hs_bcm";	/* for bcm */
-#endif
 	msm_add_serial_devices(3);
 #else
 	msm_add_serial_devices(0);
