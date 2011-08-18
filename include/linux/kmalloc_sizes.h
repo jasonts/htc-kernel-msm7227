@@ -11,6 +11,7 @@
 #endif
 	CACHE(256)
 	CACHE(512)
+/*
 #ifdef CONFIG_ARCH_MSM_ARM11
 	CACHE(768)
 	CACHE(1024)
@@ -18,6 +19,7 @@
 	CACHE(2048)
 	CACHE(3072)
 #else
+*/
 	CACHE(1024)
 	CACHE(2048)
 #endif
