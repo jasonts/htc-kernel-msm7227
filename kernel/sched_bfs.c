@@ -7069,8 +7069,5 @@ unsigned long default_scale_smt_power(struct sched_domain *sd, int cpu)
 
 	return smt_gain;
 }
-<<<<<<< HEAD
+
 #endif
-=======
-#endif
->>>>>>> cf32eeb423847778e2b517fac5957974b98726b7

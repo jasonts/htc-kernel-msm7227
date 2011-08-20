@@ -23,7 +23,7 @@
 
 	CACHE(1024)
 	CACHE(2048)
-#endif
+//#endif
 	CACHE(4096)
 	CACHE(8192)
 	CACHE(16384)
