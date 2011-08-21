@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.32.17
- * Sun Aug 21 23:12:41 2011
+ * Mon Aug 22 00:32:04 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_DEBUG_SPINLOCK_SLEEP 1
@@ -397,7 +397,7 @@
 #define CONFIG_NETFILTER_XT_MATCH_CONNLIMIT 1
 #define CONFIG_VIRT_TO_BUS 1
 #define CONFIG_MD 1
-#define CONFIG_LOCALVERSION "jasonts-liberty"
+#define CONFIG_LOCALVERSION "-jasonts-liberty"
 #define CONFIG_ZLIB_INFLATE 1
 #define CONFIG_MACH_LIBERTY 1
 #define CONFIG_INIT_ENV_ARG_LIMIT 32
