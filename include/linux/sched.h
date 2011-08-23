@@ -1592,7 +1592,7 @@ static inline void tsk_cpus_current(struct task_struct *p)
 
 static inline void print_scheduler_version(void)
 {
-	printk(KERN_INFO"BFS CPU scheduler v0.400 by Con Kolivas, modify by Jason.\n");
+	printk(KERN_INFO"BFS CPU scheduler v0.404 by Con Kolivas, modified by Jason.\n");
 }
 
 static inline int iso_task(struct task_struct *p)
