@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.32.17
- * Tue Aug 23 01:42:53 2011
+ * Tue Aug 23 21:03:10 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_DEBUG_SPINLOCK_SLEEP 1
@@ -404,6 +404,7 @@
 #define CONFIG_IP_NF_ARPFILTER 1
 #define CONFIG_SUSPEND_FREEZER 1
 #define CONFIG_MSM7X00A_IDLE_SLEEP_MODE_POWER_COLLAPSE 1
+#define CONFIG_IOSCHED_DEADLINE 1
 #define CONFIG_CRYPTO_HASH2 1
 #define CONFIG_BT 1
 #define CONFIG_NETFILTER_XT_TARGET_CONNMARK 1
