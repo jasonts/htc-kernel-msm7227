@@ -1,8 +1,8 @@
-/* This file is auto generated, version 27 */
+/* This file is auto generated, version 38 */
 /*  PREEMPT */
 #define UTS_MACHINE "arm"
-#define UTS_VERSION "#27 PREEMPT Wed Aug 24 20:40:49 CST 2011"
-#define LINUX_COMPILE_TIME "20:40:49"
+#define UTS_VERSION "#38 PREEMPT Thu Aug 25 01:16:00 CST 2011"
+#define LINUX_COMPILE_TIME "01:16:00"
 #define LINUX_COMPILE_BY "jason"
 #define LINUX_COMPILE_HOST "linux-jjzq"
 #define LINUX_COMPILE_DOMAIN "site"

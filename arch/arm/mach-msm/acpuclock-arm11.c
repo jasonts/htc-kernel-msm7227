@@ -170,15 +170,17 @@ static struct cpufreq_frequency_table *freq_table;
 static struct cpufreq_frequency_table msm7227_freq_table[] = {
 	{ 0, 19200 },
 	{ 1, 120000 },
-	{ 2, 245760 },
-	{ 3, 320000 },
-	{ 4, 400000 },
-	{ 5, 480000 },
-	{ 6, 600000 },
-	{ 7, 768000 },
-	{ 8, 787200 },
-	{ 9, 806400 },
-	{ 10, CPUFREQ_TABLE_END },
+	{ 2, 122880 },
+	{ 3, 200000 },
+	{ 4, 245760 },
+	{ 5, 320000 },
+	{ 6, 400000 },
+	{ 7, 480000 },
+	{ 8, 600000 },
+	{ 9, 768000 },
+	{ 10, 787200 },
+	{ 11, 806400 },
+	{ 12, CPUFREQ_TABLE_END },
 };
 
 static struct cpufreq_frequency_table msm72xx_freq_table[] = {
