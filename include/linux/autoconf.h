@@ -1,7 +1,7 @@
 /*
  * Automatically generated C config: don't edit
  * Linux kernel version: 2.6.32.17
- * Wed Aug 24 00:54:09 2011
+ * Wed Aug 24 14:12:55 2011
  */
 #define AUTOCONF_INCLUDED
 #define CONFIG_DEBUG_SPINLOCK_SLEEP 1
@@ -590,7 +590,6 @@
 #define CONFIG_NF_CONNTRACK_FTP 1
 #define CONFIG_CACHE_FLUSH_RANGE_LIMIT 0x40000
 #define CONFIG_BT_HCIUART_H4 1
-#define CONFIG_CPU_FREQ_GOV_SMOOTHASS 1
 #define CONFIG_ARM 1
 #define CONFIG_NETWORK_FILESYSTEMS 1
 #define CONFIG_I2C_COMPAT 1
