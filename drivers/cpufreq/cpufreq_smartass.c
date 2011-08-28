@@ -15,8 +15,8 @@
  * Author: Erasmux
  *
  * Based on the interactive governor By Mike Chan (mike@android.com)
- * which was adaptated to 2.6.29 kernel by Nadlabak (pavel@doshaska.net)                     
- * 
+ * which was adaptated to 2.6.29 kernel by Nadlabak (pavel@doshaska.net)
+ *
  * requires to add
  * EXPORT_SYMBOL_GPL(nr_running);
  * at the end of kernel/sched.c
@@ -79,14 +79,14 @@ static unsigned long up_rate_us;
 /*
  * The minimum amount of time to spend at a frequency before we can ramp down.
  */
-#define DEFAULT_DOWN_RATE_US 45000;
+#define DEFAULT_DOWN_RATE_US 48000;
 static unsigned long down_rate_us;
 
 /*
  * When ramping up frequency with no idle cycles jump to at least this frequency.
  * Zero disables. Set a very high value to jump to policy max freqeuncy.
  */
-#define DEFAULT_UP_MIN_FREQ 768000
+#define DEFAULT_UP_MIN_FREQ 999999
 static unsigned int up_min_freq;
 
 /*
@@ -102,7 +102,7 @@ static unsigned int sleep_max_freq;
  * The frequency to set when waking up from sleep.
  * When sleep_max_freq=0 this will have no effect.
  */
-#define DEFAULT_SLEEP_WAKEUP_FREQ 768000
+#define DEFAULT_SLEEP_WAKEUP_FREQ 999999
 static unsigned int sleep_wakeup_freq;
 
 /*
@@ -110,7 +110,7 @@ static unsigned int sleep_wakeup_freq;
  * go below this frequency.
  * Set awake_min_freq=0 to disable this behavior.
  */
-#define DEFAULT_AWAKE_MIN_FREQ 120000
+#define DEFAULT_AWAKE_MIN_FREQ 122880
 static unsigned int awake_min_freq;
 
 /*
@@ -123,14 +123,14 @@ static unsigned int sample_rate_jiffies;
  * Freqeuncy delta when ramping up.
  * zero disables and causes to always jump straight to max frequency.
  */
-#define DEFAULT_RAMP_UP_STEP 76800
+#define DEFAULT_RAMP_UP_STEP 128000
 static unsigned int ramp_up_step;
 
 /*
  * Freqeuncy delta when ramping down.
  * zero disables and will calculate ramp down according to load heuristic.
  */
-#define DEFAULT_RAMP_DOWN_STEP 192000
+#define DEFAULT_RAMP_DOWN_STEP 0	//172000
 static unsigned int ramp_down_step;
 
 /*
@@ -155,7 +155,7 @@ static
 struct cpufreq_governor cpufreq_gov_smartass = {
         .name = "smartass",
         .governor = cpufreq_governor_smartass,
-        .max_transition_latency = 6000000,
+        .max_transition_latency = 9000000,
         .owner = THIS_MODULE,
 };
 
@@ -325,7 +325,7 @@ static void cpufreq_smartass_freq_change_time_work(struct work_struct *work)
                                 new_freq = policy->cur - ramp_down_step;
                         else {
                                 cpu_load += 100 - max_cpu_load; // dummy load.
-                                new_freq = policy->cur * cpu_load / 100;
+                                new_freq = policy->cur * cpu_load / 80; //100
                         }
                         relation = CPUFREQ_RELATION_L;
                 }
@@ -756,5 +756,5 @@ static void __exit cpufreq_smartass_exit(void)
 module_exit(cpufreq_smartass_exit);
 
 MODULE_AUTHOR ("Erasmux");
-MODULE_DESCRIPTION ("'cpufreq_minmax' - A smart cpufreq governor optimized for the hero!");
+MODULE_DESCRIPTION ("'cpufreq_smartass' - A smart cpufreq governor");
 MODULE_LICENSE ("GPL");
