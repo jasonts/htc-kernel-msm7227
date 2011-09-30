@@ -1,1 +1,1 @@
-#define UTS_RELEASE "2.6.32.17-jasonts-liberty-smartasstweaking"
+#define UTS_RELEASE "2.6.32.17-jasonts-liberty"

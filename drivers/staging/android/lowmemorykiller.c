@@ -66,10 +66,10 @@ static int lowmem_minfile_size = 6;
 
 static int ignore_lowmem_deathpending;
 static struct task_struct *lowmem_deathpending;
-
+static unsigned long lowmem_deathpending_timeout;
 static uint32_t lowmem_check_filepages = 0;
 
-static uint32_t lowmem_deathpending_retries = 0;
+//static uint32_t lowmem_deathpending_retries = 0;
 
 static uint32_t lowmem_max_deathpending_retries = 1000;
 
@@ -98,7 +98,7 @@ task_notify_func(struct notifier_block *self, unsigned long val, void *data)
 	}
 	return NOTIFY_OK;
 }
-
+/*
 static void dump_deathpending(struct task_struct *t_deathpending)
 {
 	struct task_struct *p;
@@ -134,7 +134,7 @@ static void dump_deathpending(struct task_struct *t_deathpending)
 	}
 	read_unlock(&tasklist_lock);
 }
-
+*/
 static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 {
 	struct task_struct *p;
@@ -158,6 +158,7 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 	 * this pass.
 	 *
 	 */
+/*
 	if (lowmem_deathpending) {
 		dump_deathpending(lowmem_deathpending);
 		if (lowmem_deathpending_retries++ < lowmem_max_deathpending_retries)
@@ -165,6 +166,10 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 		else
 			task_free_unregister(&task_nb);
 	}
+*/
+	if (lowmem_deathpending &&
+			time_before_eq(jiffies, lowmem_deathpending_timeout))
+		return 0;
 
 	if (lowmem_adj_size < array_size)
 		array_size = lowmem_adj_size;
@@ -241,11 +246,8 @@ static int lowmem_shrink(int nr_to_scan, gfp_t gfp_mask)
 		lowmem_print(1, "send sigkill to %d (%s), adj %d, size %d\n",
 			     selected->pid, selected->comm,
 			     selected_oom_adj, selected_tasksize);
-		if (!ignore_lowmem_deathpending) {
-			lowmem_deathpending = selected;
-			lowmem_deathpending_retries = 0;
-			task_free_register(&task_nb);
-		}
+		lowmem_deathpending = selected;
+		lowmem_deathpending_timeout = jiffies + HZ;
 		force_sig(SIGKILL, selected);
 		rem -= selected_tasksize;
 	}
