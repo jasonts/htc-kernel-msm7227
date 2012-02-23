@@ -1,8 +1,8 @@
-/* This file is auto generated, version 84 */
+/* This file is auto generated, version 85 */
 /*  PREEMPT */
 #define UTS_MACHINE "arm"
-#define UTS_VERSION "#84 PREEMPT Thu Feb 23 17:54:07 CST 2012"
-#define LINUX_COMPILE_TIME "17:54:07"
+#define UTS_VERSION "#85 PREEMPT Thu Feb 23 18:36:31 CST 2012"
+#define LINUX_COMPILE_TIME "18:36:31"
 #define LINUX_COMPILE_BY "jason"
 #define LINUX_COMPILE_HOST "jason-kubuntu"
 #define LINUX_COMPILE_DOMAIN
